@@ -2,6 +2,7 @@
 </script>
 
 <template>
+  <el-button>I am ElButton</el-button>
   <router-view></router-view>
 </template>
 

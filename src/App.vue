@@ -2,13 +2,13 @@
 </script>
 
 <template>
-  <el-button>I am ElButton</el-button>
   <router-view></router-view>
 </template>
 
 <style>
 html,
-body {
+body,
+#app {
   width: 100%;
   height: 100%;
 }

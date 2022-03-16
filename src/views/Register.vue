@@ -53,7 +53,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { registerType } from "../utils/types";
+import { registerType, registerRulesType } from "../utils/types";
 
 const registerUser = ref<registerType>({
   name: "米斯特吴",
@@ -73,7 +73,7 @@ const validatePass2 = (rule: any, value: any, callback: any) => {
   }
 };
 
-const rules = reactive({
+const rules = reactive<registerRulesType>({
   name: [
     { required: true, message: "用户名不能为空", trigger: "change" },
     { min: 2, max: 30, message: "长度在2到30个字符之间", trigger: "blur" },

@@ -5,6 +5,7 @@
         <span class="title">后台管理系统</span>
         <el-form
           :rules="rules"
+          ref="ruleFormRef"
           :model="registerUser"
           class="registerForm"
           label-width="80px"
@@ -43,7 +44,9 @@
           </el-form-item>
 
           <el-form-item>
-            <el-button @click="handleSubmit" class="submit-btn">注册</el-button>
+            <el-button @click="handleSubmit(ruleFormRef)" class="submit-btn"
+              >注册</el-button
+            >
           </el-form-item>
         </el-form>
       </div>
@@ -54,6 +57,9 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { registerType, registerRulesType } from "../utils/types";
+import type { FormInstance } from "element-plus";
+
+const ruleFormRef = ref<FormInstance>();
 
 const registerUser = ref<registerType>({
   name: "米斯特吴",
@@ -97,8 +103,16 @@ const rules = reactive<registerRulesType>({
   ],
 });
 
-const handleSubmit = () => {
-  console.log(registerUser.value);
+const handleSubmit = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.validate((valid: boolean) => {
+    if (valid) {
+      console.log("submit!");
+    } else {
+      console.log("error submit!");
+      return false;
+    }
+  });
 };
 </script>
 

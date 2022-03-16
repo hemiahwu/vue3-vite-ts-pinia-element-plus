@@ -3,7 +3,12 @@
     <section class="form-container">
       <div class="manage-tip">
         <span class="title">后台管理系统</span>
-        <el-form v-model="registerUser" class="registerForm" label-width="80px">
+        <el-form
+          :rules="rules"
+          :model="registerUser"
+          class="registerForm"
+          label-width="80px"
+        >
           <el-form-item label="用户名" prop="name">
             <el-input
               v-model="registerUser.name"
@@ -47,7 +52,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, reactive } from "vue";
 import { registerType } from "../utils/types";
 
 const registerUser = ref<registerType>({
@@ -56,6 +61,40 @@ const registerUser = ref<registerType>({
   password: "321321",
   password2: "321321",
   identity: "管理员",
+});
+
+const validatePass2 = (rule: any, value: any, callback: any) => {
+  if (value === "") {
+    callback(new Error("请重新输入密码"));
+  } else if (value !== registerUser.value.password) {
+    callback(new Error("两次密码不一致!"));
+  } else {
+    callback();
+  }
+};
+
+const rules = reactive({
+  name: [
+    { required: true, message: "用户名不能为空", trigger: "change" },
+    { min: 2, max: 30, message: "长度在2到30个字符之间", trigger: "blur" },
+  ],
+  email: [
+    {
+      type: "email",
+      required: true,
+      message: "邮箱格式不正确",
+      trigger: "blur",
+    },
+  ],
+  password: [
+    { required: true, message: "密码不能为空", trigger: "blur" },
+    { min: 6, max: 30, message: "长度在6到30个字符之间", trigger: "blur" },
+  ],
+  password2: [
+    // { required: true, message: "密码不能为空", trigger: "blur" },
+    { min: 6, max: 30, message: "长度在6到30个字符之间", trigger: "blur" },
+    { validator: validatePass2, trigger: "blur" },
+  ],
 });
 
 const handleSubmit = () => {

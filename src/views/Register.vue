@@ -57,10 +57,12 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { registerType, registerRulesType } from "../utils/types";
-import type { FormInstance } from "element-plus";
+import { FormInstance, ElMessage } from "element-plus";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 const ruleFormRef = ref<FormInstance>();
+const router = useRouter();
 
 const registerUser = ref<registerType>({
   name: "米斯特吴",
@@ -114,6 +116,13 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
       );
 
       console.log(data);
+
+      ElMessage({
+        message: "用户注册成功.",
+        type: "success",
+      });
+
+      router.push("/");
     } else {
       console.log("error submit!");
       return false;

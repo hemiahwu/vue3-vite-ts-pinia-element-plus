@@ -28,15 +28,17 @@ const router = createRouter({
     routes
 })
 
-// 路由守卫
 router.beforeEach((to,from,next) => {
-    const isLogin:boolean = localStorage.token ? true : false;
 
+    const isLogin:Boolean = localStorage.token ? true : false;
+    
     if(to.path === "/login" || to.path === "/register"){
         next()
     }else {
         isLogin ? next() : next("/login")
     }
-}) 
+})
+
+
 
 export default router

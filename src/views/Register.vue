@@ -57,7 +57,7 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
 import { registerType, registerRulesType } from "../utils/types";
-import { FormInstance, ElMessage } from "element-plus";
+import { FormInstance } from "element-plus";
 import axios from "axios";
 import { useRouter } from "vue-router";
 
@@ -117,6 +117,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 
       console.log(data);
 
+      // @ts-ignore
       ElMessage({
         message: "用户注册成功.",
         type: "success",
@@ -132,39 +133,4 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 </script>
 
 <style >
-.register {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  background: url(../assets/bg.jpg) no-repeat center center;
-  background-size: 100% 100%;
-}
-.form-container {
-  width: 370px;
-  height: 210px;
-  position: absolute;
-  top: 10%;
-  left: 34%;
-  padding: 25px;
-  border-radius: 5px;
-  text-align: center;
-}
-.form-container .manage-tip .title {
-  font-family: "Microsoft YaHei";
-  font-weight: bold;
-  font-size: 26px;
-  color: #fff;
-}
-
-.registerForm {
-  margin-top: 20px;
-  background-color: #fff;
-  padding: 20px 40px 20px 20px;
-  border-radius: 5px;
-  box-shadow: 0px 5px 10px #cccc;
-}
-
-.submit-btn {
-  width: 100%;
-}
 </style>

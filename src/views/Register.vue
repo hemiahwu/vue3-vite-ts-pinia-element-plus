@@ -58,7 +58,7 @@
 import { ref, reactive } from "vue";
 import { registerType, registerRulesType } from "../utils/types";
 import { FormInstance } from "element-plus";
-import axios from "axios";
+import axios from "../utils/http";
 import { useRouter } from "vue-router";
 
 const ruleFormRef = ref<FormInstance>();

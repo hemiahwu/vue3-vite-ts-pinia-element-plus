@@ -4,15 +4,11 @@
 
 <script setup lang="ts">
 import { onMounted } from "vue";
-import axios from "axios";
+import axios from "../utils/http";
 
 onMounted(async () => {
   try {
-    const data = await axios.get("/api/users/current", {
-      headers: {
-        Authorization: localStorage.token,
-      },
-    });
+    const data = await axios.get("/api/users/current");
     console.log(data);
   } catch (error) {
     console.log(error);

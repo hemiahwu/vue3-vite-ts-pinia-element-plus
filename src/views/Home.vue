@@ -1,10 +1,13 @@
 <template>
-  <div class="index">初始化页面</div>
+  <div class="index">
+    <Navbar />
+  </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from "vue";
 import axios from "../utils/http";
+import Navbar from "../components/Navbar.vue";
 
 onMounted(async () => {
   try {

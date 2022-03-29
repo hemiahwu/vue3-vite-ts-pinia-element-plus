@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import {userType} from '../utils/types'
 
 export const useAuthStore = defineStore('auth', {
   state: () => {
@@ -16,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
             this.isAuthenticated = false;
         }
     },
-    setUser(user: any){
+    setUser(user: userType | null){
         if(user){
             this.user = user;
         }else {

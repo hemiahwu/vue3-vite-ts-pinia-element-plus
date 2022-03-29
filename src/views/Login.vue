@@ -43,7 +43,7 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { registerType, registerRulesType } from "../utils/types";
+import { registerType, registerRulesType, userType } from "../utils/types";
 import { FormInstance } from "element-plus";
 import axios from "../utils/http";
 import { useRouter } from "vue-router";
@@ -86,7 +86,7 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
         localStorage.setItem("token", token);
 
         // 解析token
-        const decode = jwt_decode(token);
+        const decode: userType = jwt_decode(token);
         console.log(decode);
 
         store.setAuth(!!decode);

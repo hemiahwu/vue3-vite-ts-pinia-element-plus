@@ -47,3 +47,13 @@ export interface registerRulesType {
       trigger: string
     })[];
 }
+
+export interface userType {
+    avatar:string;
+    exp:number;
+    iat:number;
+    id:string;
+    identity:string;
+    name:string;
+
+}

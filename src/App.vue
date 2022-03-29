@@ -1,4 +1,17 @@
 <script setup lang="ts">
+import { watchEffect } from "vue";
+import jwt_decode from "jwt-decode";
+import { useAuthStore } from "./store";
+
+const store = useAuthStore();
+
+watchEffect(() => {
+  if (localStorage.token) {
+    const decode = jwt_decode(localStorage.token);
+    store.setAuth(!!decode);
+    store.setUser(decode);
+  }
+});
 </script>
 
 <template>

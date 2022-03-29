@@ -48,9 +48,11 @@ import { FormInstance } from "element-plus";
 import axios from "../utils/http";
 import { useRouter } from "vue-router";
 import jwt_decode from "jwt-decode";
+import { useAuthStore } from "../store";
 
 const ruleFormRef = ref<FormInstance>();
 const router = useRouter();
+const store = useAuthStore();
 
 const loginUser = ref<registerType>({
   email: "27732357@qq.com",
@@ -86,6 +88,9 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
         // 解析token
         const decode = jwt_decode(token);
         console.log(decode);
+
+        store.setAuth(!!decode);
+        store.setUser(decode);
 
         // @ts-ignore
         ElMessage({

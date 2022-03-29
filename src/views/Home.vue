@@ -1,13 +1,13 @@
 <template>
-  <div class="index">
+  <div class="home">
     <Navbar />
+    <router-view></router-view>
   </div>
 </template>
 
 <script setup lang="ts">
 import { onMounted } from "vue";
 import axios from "../utils/http";
-import Navbar from "../components/Navbar.vue";
 
 onMounted(async () => {
   try {
@@ -19,5 +19,10 @@ onMounted(async () => {
 });
 </script>
 
-<style>
+<style scoped>
+.home {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
 </style>

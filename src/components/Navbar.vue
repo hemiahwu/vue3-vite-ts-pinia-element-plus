@@ -7,10 +7,16 @@
       </el-col>
       <el-col :span="12" class="user">
         <div class="userinfo">
-          <img src="../assets/default.jpeg" class="avatar" alt="" />
+          <img
+            v-if="store.user.avatar"
+            :src="store.user.avatar"
+            class="avatar"
+            alt=""
+          />
+          <img v-else src="../assets/default.jpeg" class="avatar" alt="" />
           <div class="welcome-content">
             <p class="content welcome">欢迎</p>
-            <p class="content username">米斯特吴</p>
+            <p class="content username">{{ store.user.name }}</p>
           </div>
           <span class="dropdown">
             <el-dropdown trigger="click" @command="handleDropdown">
@@ -36,7 +42,7 @@ import { ArrowDown } from "@element-plus/icons-vue";
 import router from "../router";
 import { useAuthStore } from "../store";
 
-const store = useAuthStore();
+const store: any = useAuthStore();
 
 const handleDropdown = (item: string) => {
   switch (item) {

@@ -47,6 +47,7 @@ import { registerType, registerRulesType } from "../utils/types";
 import { FormInstance } from "element-plus";
 import axios from "../utils/http";
 import { useRouter } from "vue-router";
+import jwt_decode from "jwt-decode";
 
 const ruleFormRef = ref<FormInstance>();
 const router = useRouter();
@@ -81,6 +82,11 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
 
       if (success && token) {
         localStorage.setItem("token", token);
+
+        // 解析token
+        const decode = jwt_decode(token);
+        console.log(decode);
+
         // @ts-ignore
         ElMessage({
           message: "用户登录成功.",

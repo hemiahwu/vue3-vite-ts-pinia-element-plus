@@ -56,7 +56,8 @@ const handleDropdown = (item: string) => {
 };
 
 const showUserInfo = () => {
-  console.log("跳转到个人信息");
+  // console.log("跳转到个人信息");
+  router.push("/userinfo");
 };
 
 const logout = () => {

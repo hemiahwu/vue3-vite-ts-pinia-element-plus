@@ -38,7 +38,6 @@
 </template>
 
 <script  setup lang="ts">
-import { ArrowDown } from "@element-plus/icons-vue";
 import router from "../router";
 import { useAuthStore } from "../store";
 

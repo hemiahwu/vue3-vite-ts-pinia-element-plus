@@ -76,7 +76,11 @@
       </el-table-column>
     </el-table>
   </div>
-  <DialogModal :show="show" @closeModal="show = false" />
+  <DialogModal
+    :show="show"
+    @closeModal="show = false"
+    @handleUpdateProfiles="handleUpdateProfiles"
+  />
 </template>
 
 <script setup lang="ts">
@@ -90,8 +94,6 @@ const getProfiles = async () => {
   const { data } = await axios("/api/profiles");
 
   tableData.value = data;
-
-  console.log(data);
 };
 
 watchEffect(() => getProfiles());
@@ -99,6 +101,10 @@ const handleEdit = (row: any) => {};
 const handleDelete = (row: any, inde: any) => {};
 const handleAdd = () => {
   show.value = true;
+};
+
+const handleUpdateProfiles = () => {
+  getProfiles();
 };
 </script>
 

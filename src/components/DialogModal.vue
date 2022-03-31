@@ -44,6 +44,7 @@
 import { ref } from "vue";
 import { FormInstance } from "element-plus";
 import { formDataType, formRulesType } from "../utils/types";
+import axios from "../utils/http";
 
 const typeList = ref(["现金", "微信", "支付宝", "银行卡"]);
 const form = ref<FormInstance>();
@@ -68,7 +69,13 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
   if (!formEl) return;
   formEl.validate(async (valid: boolean) => {
     if (valid) {
-      console.log(formData.value);
+      //   console.log(formData.value);
+      await axios.post("/api/profiles/add", formData.value);
+      // @ts-ignore
+      ElMessage.success("添加成功");
+
+      emits("handleUpdateProfiles");
+      emits("closeModal");
     } else {
     }
   });
@@ -78,7 +85,7 @@ const handleClose = () => {
   emits("closeModal");
 };
 
-const emits = defineEmits(["closeModal"]);
+const emits = defineEmits(["closeModal", "handleUpdateProfiles"]);
 
 defineProps({
   show: {

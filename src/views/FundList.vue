@@ -1,5 +1,14 @@
 <template>
   <div class="fillcontain">
+    <div>
+      <el-form :inline="true">
+        <el-form-item class="btn-right">
+          <el-button type="primary" size="small" @click="handleAdd"
+            >添加</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </div>
     <el-table
       :data="tableData"
       style="width: 100%"
@@ -86,6 +95,7 @@ const getProfiles = async () => {
 watchEffect(() => getProfiles());
 const handleEdit = (row: any) => {};
 const handleDelete = (row: any, inde: any) => {};
+const handleAdd = () => {};
 </script>
 
 <style scoped>
@@ -94,5 +104,9 @@ const handleDelete = (row: any, inde: any) => {};
   height: 100%;
   padding: 16px;
   box-sizing: border-box;
+}
+
+.btn-right {
+  float: right;
 }
 </style>

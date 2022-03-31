@@ -76,6 +76,7 @@
       </el-table-column>
     </el-table>
   </div>
+  <DialogModal :show="show" />
 </template>
 
 <script setup lang="ts">
@@ -83,6 +84,7 @@ import { ref, watchEffect } from "vue";
 import axios from "../utils/http";
 
 const tableData = ref([]);
+const show = ref(false);
 
 const getProfiles = async () => {
   const { data } = await axios("/api/profiles");
@@ -95,7 +97,9 @@ const getProfiles = async () => {
 watchEffect(() => getProfiles());
 const handleEdit = (row: any) => {};
 const handleDelete = (row: any, inde: any) => {};
-const handleAdd = () => {};
+const handleAdd = () => {
+  show.value = true;
+};
 </script>
 
 <style scoped>

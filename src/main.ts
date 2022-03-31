@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import {createPinia} from 'pinia'
-import { HomeFilled, Money, InfoFilled,ArrowDown } from "@element-plus/icons-vue";
+import { HomeFilled, Money, InfoFilled,ArrowDown,Timer } from "@element-plus/icons-vue";
 
 
 const app = createApp(App)
@@ -12,6 +12,7 @@ const icons = {
     "Money":Money,
     "InfoFilled":InfoFilled,
     "arrow-down":ArrowDown,
+    "Timer":Timer
 }
 
 for (const [key,value] of Object.entries(icons)) {

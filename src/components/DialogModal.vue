@@ -1,5 +1,5 @@
 <template>
-  <el-dialog v-model="show" title="添加收支信息">
+  <el-dialog :before-close="handleClose" v-model="show" title="添加收支信息">
     <el-form
       :model="formData"
       ref="form"
@@ -33,7 +33,7 @@
         <el-input v-model="formData.remark" type="textarea"></el-input>
       </el-form-item>
       <el-form-item class="text-right">
-        <el-button>取消</el-button>
+        <el-button @click="handleClose">取消</el-button>
         <el-button type="primary" @click="handleSubmit(form)">提交</el-button>
       </el-form-item>
     </el-form>
@@ -73,6 +73,12 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
     }
   });
 };
+
+const handleClose = () => {
+  emits("closeModal");
+};
+
+const emits = defineEmits(["closeModal"]);
 
 defineProps({
   show: {

@@ -76,7 +76,7 @@
       </el-table-column>
     </el-table>
   </div>
-  <DialogModal :show="show" />
+  <DialogModal :show="show" @closeModal="show = false" />
 </template>
 
 <script setup lang="ts">

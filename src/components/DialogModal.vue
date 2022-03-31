@@ -3,6 +3,7 @@
     <el-form
       :model="formData"
       ref="form"
+      :rules="formRules"
       label-width="120px"
       style="margin: 10px; width: auto"
     >
@@ -33,7 +34,7 @@
       </el-form-item>
       <el-form-item class="text-right">
         <el-button>取消</el-button>
-        <el-button type="primary" @click="hadnleSubmit('form')">提交</el-button>
+        <el-button type="primary" @click="handleSubmit(form)">提交</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -41,11 +42,13 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { FormInstance } from "element-plus";
+import { formDataType, formRulesType } from "../utils/types";
 
 const typeList = ref(["现金", "微信", "支付宝", "银行卡"]);
-const form = ref({});
+const form = ref<FormInstance>();
 
-const formData = ref({
+const formData = ref<formDataType>({
   type: "现金",
   describe: "购买课程",
   income: "1580",
@@ -54,10 +57,20 @@ const formData = ref({
   remark: "提升技能,升职加薪",
 });
 
-const hadnleSubmit = () => {
-  // @ts-ignore
-  form.value.validate((valid) => {
-    console.log(formData.value);
+const formRules: formRulesType = {
+  describe: [{ required: true, message: "收支描述不能为空", trigger: "blur" }],
+  income: [{ required: true, message: "收入不能为空", trigger: "blur" }],
+  expend: [{ required: true, message: "支出不能为空", trigger: "blur" }],
+  cash: [{ required: true, message: "账户现金不能为空", trigger: "blur" }],
+};
+
+const handleSubmit = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.validate(async (valid: boolean) => {
+    if (valid) {
+      console.log(formData.value);
+    } else {
+    }
   });
 };
 

@@ -77,6 +77,7 @@
       <el-col :span="24">
         <div class="pagination">
           <el-pagination
+            v-if="total > 0"
             v-model:currentPage="page_index"
             v-model:page-size="page_size"
             :page-sizes="page_sizes"
@@ -142,8 +143,26 @@ const handleUpdateProfiles = () => {
   getProfiles();
 };
 
-const handleSizeChange = () => {};
-const handleCurrentChange = () => {};
+const handleSizeChange = (pages: number) => {
+  // console.log(pages);
+  page_index.value = 1;
+  page_size.value = pages;
+
+  // 重构数据
+  tableData.value = allTableData.value.filter((item: any, index: number) => {
+    return index < page_size.value;
+  });
+};
+const handleCurrentChange = (page: number) => {
+  // console.log(page);
+  let currentPage = page_size.value * (page - 1);
+  let pageData = allTableData.value.filter((item: any, index: number) => {
+    return index >= currentPage;
+  });
+  tableData.value = pageData.filter((item: any, index: number) => {
+    return index < page_size.value;
+  });
+};
 
 const setPaginations = () => {
   total.value = allTableData.value.length;

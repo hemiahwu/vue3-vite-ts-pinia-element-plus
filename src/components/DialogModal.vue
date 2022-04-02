@@ -1,5 +1,9 @@
 <template>
-  <el-dialog :before-close="handleClose" v-model="show" title="添加收支信息">
+  <el-dialog
+    :before-close="handleClose"
+    v-model="show"
+    :title="editData ? '编辑收支信息' : '添加收支信息'"
+  >
     <el-form
       :model="formData"
       ref="form"
@@ -41,7 +45,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { FormInstance } from "element-plus";
 import { formDataType, formRulesType } from "../utils/types";
 import axios from "../utils/http";
@@ -49,7 +53,7 @@ import axios from "../utils/http";
 const typeList = ref(["现金", "微信", "支付宝", "银行卡"]);
 const form = ref<FormInstance>();
 
-const formData = ref<formDataType>({
+const formData = ref<formDataType | any>({
   type: "现金",
   describe: "购买课程",
   income: "1580",
@@ -87,9 +91,19 @@ const handleClose = () => {
 
 const emits = defineEmits(["closeModal", "handleUpdateProfiles"]);
 
-defineProps({
+watch(
+  () => props.editData,
+  () => {
+    formData.value = props.editData;
+  }
+);
+
+const props = defineProps({
   show: {
     type: Boolean,
+  },
+  editData: {
+    type: Object as () => formDataType,
   },
 });
 </script>

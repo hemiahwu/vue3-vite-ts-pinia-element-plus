@@ -80,15 +80,18 @@
     :show="show"
     @closeModal="show = false"
     @handleUpdateProfiles="handleUpdateProfiles"
+    :editData="editData"
   />
 </template>
 
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import axios from "../utils/http";
+import { formDataType } from "../utils/types";
 
-const tableData = ref([]);
-const show = ref(false);
+const tableData = ref<never[]>([]);
+const show = ref<boolean>(false);
+const editData = ref<formDataType>();
 
 const getProfiles = async () => {
   const { data } = await axios("/api/profiles");
@@ -97,8 +100,12 @@ const getProfiles = async () => {
 };
 
 watchEffect(() => getProfiles());
-const handleEdit = (row: any) => {};
-const handleDelete = (row: any, inde: any) => {};
+const handleEdit = (row: formDataType) => {
+  show.value = true;
+  editData.value = row;
+  console.log(row);
+};
+const handleDelete = (row: formDataType, index: number) => {};
 const handleAdd = () => {
   show.value = true;
 };

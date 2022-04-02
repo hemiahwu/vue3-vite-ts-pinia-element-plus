@@ -66,10 +66,7 @@
           <el-button size="small" type="primary" @click="handleEdit(scope.row)"
             >编辑</el-button
           >
-          <el-button
-            size="small"
-            type="danger"
-            @click="handleDelete(scope.$idnex, scope.row)"
+          <el-button size="small" type="danger" @click="handleDelete(scope.row)"
             >删除</el-button
           >
         </template>
@@ -103,9 +100,15 @@ watchEffect(() => getProfiles());
 const handleEdit = (row: formDataType) => {
   show.value = true;
   editData.value = row;
-  console.log(row);
 };
-const handleDelete = (row: formDataType, index: number) => {};
+const handleDelete = async (row: formDataType) => {
+  console.log(row);
+  await axios.delete(`/api/profiles/delete/${row._id}`);
+
+  // @ts-ignore
+  ElMessage.success("删除成功");
+  getProfiles();
+};
 const handleAdd = () => {
   show.value = true;
 };

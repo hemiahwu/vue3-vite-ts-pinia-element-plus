@@ -74,9 +74,10 @@ const handleSubmit = (formEl: FormInstance | undefined) => {
   formEl.validate(async (valid: boolean) => {
     if (valid) {
       //   console.log(formData.value);
-      await axios.post("/api/profiles/add", formData.value);
+      const url = !props.editData?._id ? "add" : `edit/${props.editData._id}`;
+      await axios.post(`/api/profiles/${url}`, formData.value);
       // @ts-ignore
-      ElMessage.success("添加成功");
+      ElMessage.success("保存成功");
 
       emits("handleUpdateProfiles");
       emits("closeModal");

@@ -2,6 +2,26 @@
   <div class="fillcontain">
     <div>
       <el-form :inline="true">
+        <el-form-item label="时间筛选">
+          <el-date-picker
+            v-model="startTime"
+            type="datetime"
+            placeholder="选择开始时间"
+          >
+          </el-date-picker>
+          --
+          <el-date-picker
+            v-model="endTime"
+            type="datetime"
+            placeholder="选择结束时间"
+          >
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" size="small" @click="handleSort"
+            >筛选</el-button
+          >
+        </el-form-item>
         <el-form-item class="btn-right">
           <el-button type="primary" size="small" @click="handleAdd"
             >添加</el-button
@@ -104,8 +124,9 @@ import { ref, watchEffect } from "vue";
 import axios from "../utils/http";
 import { formDataType } from "../utils/types";
 
-const tableData = ref<never[]>([]);
-const allTableData = ref<any>([]);
+const tableData = ref<formDataType[]>([]);
+const allTableData = ref<formDataType[]>([]);
+const filterTableData = ref<formDataType[]>([]);
 const show = ref<boolean>(false);
 const editData = ref<formDataType>();
 const page_index = ref(1), // 当前位于哪一页
@@ -114,11 +135,16 @@ const page_index = ref(1), // 当前位于哪一页
   page_sizes = [5, 10, 15, 20], // 每页显示多少条
   layout = "total, sizes, prev, pager, next, jumper"; // 翻页属性
 
+// 时间筛选
+const startTime = ref<Date>(),
+  endTime = ref<Date>();
+
 const getProfiles = async () => {
   const { data } = await axios("/api/profiles");
 
   tableData.value = data;
   allTableData.value = data;
+  filterTableData.value = data;
   setPaginations();
 };
 
@@ -172,6 +198,34 @@ const setPaginations = () => {
   tableData.value = allTableData.value.filter((item: any, index: number) => {
     return index < page_size.value;
   });
+};
+
+// 筛选
+const handleSort = () => {
+  if (!startTime.value || !endTime.value) {
+    // @ts-ignore
+    ElMessage({
+      type: "warning",
+      message: "请选择时间区间",
+    });
+
+    getProfiles();
+
+    return;
+  }
+
+  // 实现过滤
+  const stime = startTime.value.getTime();
+  const etime = endTime.value.getTime();
+
+  allTableData.value = filterTableData.value.filter((item: any) => {
+    let date = new Date(item.date);
+    let time = date.getTime();
+    return time >= stime && time <= etime;
+  });
+
+  // 调用分页功能
+  setPaginations();
 };
 </script>
 

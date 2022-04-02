@@ -72,6 +72,23 @@
         </template>
       </el-table-column>
     </el-table>
+    <!-- 分页 -->
+    <el-row>
+      <el-col :span="24">
+        <div class="pagination">
+          <el-pagination
+            v-model:currentPage="page_index"
+            v-model:page-size="page_size"
+            :page-sizes="page_sizes"
+            small="small"
+            :layout="layout"
+            :total="total"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+          />
+        </div>
+      </el-col>
+    </el-row>
   </div>
   <DialogModal
     :show="show"
@@ -87,13 +104,21 @@ import axios from "../utils/http";
 import { formDataType } from "../utils/types";
 
 const tableData = ref<never[]>([]);
+const allTableData = ref<any>([]);
 const show = ref<boolean>(false);
 const editData = ref<formDataType>();
+const page_index = ref(1), // 当前位于哪一页
+  page_size = ref(5), // 1页显示多少条
+  total = ref(0), // 总条数
+  page_sizes = [5, 10, 15, 20], // 每页显示多少条
+  layout = "total, sizes, prev, pager, next, jumper"; // 翻页属性
 
 const getProfiles = async () => {
   const { data } = await axios("/api/profiles");
 
   tableData.value = data;
+  allTableData.value = data;
+  setPaginations();
 };
 
 watchEffect(() => getProfiles());
@@ -116,6 +141,19 @@ const handleAdd = () => {
 const handleUpdateProfiles = () => {
   getProfiles();
 };
+
+const handleSizeChange = () => {};
+const handleCurrentChange = () => {};
+
+const setPaginations = () => {
+  total.value = allTableData.value.length;
+  page_index.value = 1;
+  page_size.value = 5;
+  // 具体显示几页 6 5 2页 第一页5 第二页1
+  tableData.value = allTableData.value.filter((item: any, index: number) => {
+    return index < page_size.value;
+  });
+};
 </script>
 
 <style scoped>
@@ -128,5 +166,10 @@ const handleUpdateProfiles = () => {
 
 .btn-right {
   float: right;
+}
+
+.pagination {
+  float: right;
+  margin-top: 10px;
 }
 </style>

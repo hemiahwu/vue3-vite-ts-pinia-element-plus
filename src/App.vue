@@ -2,12 +2,15 @@
 import { watchEffect } from "vue";
 import jwt_decode from "jwt-decode";
 import { useAuthStore } from "./store";
+import { userType } from "./utils/types";
+import { ElConfigProvider } from "element-plus";
+import zhCn from "element-plus/lib/locale/lang/zh-cn";
 
 const store = useAuthStore();
 
 watchEffect(() => {
   if (localStorage.token) {
-    const decode = jwt_decode(localStorage.token);
+    const decode: userType = jwt_decode(localStorage.token);
     store.setAuth(!!decode);
     store.setUser(decode);
   }
@@ -15,7 +18,9 @@ watchEffect(() => {
 </script>
 
 <template>
-  <router-view></router-view>
+  <el-config-provider :locale="zhCn">
+    <router-view></router-view>
+  </el-config-provider>
 </template>
 
 <style>

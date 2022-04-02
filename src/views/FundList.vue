@@ -22,7 +22,7 @@
             >筛选</el-button
           >
         </el-form-item>
-        <el-form-item class="btn-right">
+        <el-form-item class="btn-right" v-if="user.identity === 'manager'">
           <el-button type="primary" size="small" @click="handleAdd"
             >添加</el-button
           >
@@ -77,6 +77,7 @@
       <el-table-column label="备注" align="center" width="auto" prop="remark" />
 
       <el-table-column
+        v-if="user.identity === 'manager'"
         label="操作"
         align="center"
         width="auto"
@@ -122,11 +123,14 @@
 <script setup lang="ts">
 import { ref, watchEffect } from "vue";
 import axios from "../utils/http";
-import { formDataType } from "../utils/types";
+import { formDataType, userType } from "../utils/types";
+import { useAuthStore } from "../store";
 
 const tableData = ref<formDataType[]>([]);
 const allTableData = ref<formDataType[]>([]);
 const filterTableData = ref<formDataType[]>([]);
+const store = useAuthStore();
+const user = ref<userType | any>();
 const show = ref<boolean>(false);
 const editData = ref<formDataType>();
 const page_index = ref(1), // 当前位于哪一页
@@ -148,7 +152,11 @@ const getProfiles = async () => {
   setPaginations();
 };
 
-watchEffect(() => getProfiles());
+watchEffect(() => {
+  user.value = store.getUser;
+  getProfiles();
+});
+
 const handleEdit = (row: formDataType) => {
   show.value = true;
   editData.value = row;
